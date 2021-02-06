@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as api from './api/apiService';
 
 export default function App() {
-  const testApi = async () => {
-    const result = await api.getAllGrades();
-    console.log(result);
-  };
+  const [allGrades, setAllGrades] = useState([]);
+  const [selectedGrade, setSelectedGrade] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  testApi();
-  return <div></div>;
+  useEffect(() => {
+    const getGrades = async () => {
+      const grades = await api.getAllGrades();
+      setTimeout(() => {
+        setAllGrades(grades);
+      }, 2000);
+    };
+    getGrades();
+  }, []);
+  return (
+    <div>
+      <h1 className="center">Controle de Notas</h1>
+      {allGrades.length > 0 && <p>Notas disponíveis</p>}
+      {allGrades.length == 0 && <p>Carregando notas...</p>}
+    </div>
+  );
 }
