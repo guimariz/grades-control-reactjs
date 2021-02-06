@@ -11,8 +11,11 @@ export default function ModalGrade({ onSave, onClose, selectedGrade }) {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    const validation = api.getValidationFromGradeType(type);
-    setGradeValidation(validation);
+    const getValidation = async () => {
+      const validation = await api.getValidationFromGradeType(type);
+      setGradeValidation(validation);
+    };
+    getValidation();
   }, [type]);
 
   useEffect(() => {
@@ -36,18 +39,32 @@ export default function ModalGrade({ onSave, onClose, selectedGrade }) {
   });
 
   const handleKeyDown = (event) => {
-    console.log(event);
     if (event.key === '[') {
       onClose(null);
     }
   };
 
   const handleFormSubmit = (event) => {};
+  const handleGradeChange = (event) => {
+    setGradeValue(+event.target.value);
+  };
+  const handleClose = () => {
+    onClose(null);
+  };
 
   return (
     <div>
       <Modal isOpen={true}>
-        <form OnSubmit={handleFormSubmit}></form>
+        <div style={styles.flexRow}>
+          <span style={styles.title}>Manutenção de notas</span>
+          <button
+            className="waves-effect waves-light btn red dark-4"
+            onClick={handleClose}
+          >
+            X
+          </button>
+        </div>
+        <form onSubmit={handleFormSubmit}></form>
 
         <div className="input-field">
           <input id="inputName" type="text" value={student} readOnly />
@@ -74,9 +91,43 @@ export default function ModalGrade({ onSave, onClose, selectedGrade }) {
             type="number"
             min={gradeValidation.minValue}
             max={gradeValidation.maxValue}
+            step="1"
+            autoFocus
+            value={gradeValue}
+            onChange={handleGradeChange}
           />
+          <label className="active" htmlFor="inputGrade">
+            Nota:
+          </label>
+        </div>
+        <div style={styles.flexRow}>
+          <button
+            className="waves-effect waves-light btn"
+            disabled={errorMessage.trim() !== ''}
+          >
+            Salvar
+          </button>
+          <span style={styles.errorMessage}>{errorMessage}</span>
         </div>
       </Modal>
     </div>
   );
 }
+
+const styles = {
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '40px',
+  },
+  title: {
+    fontSize: '1.3rem',
+    fontWeight: 'bold',
+  },
+  errorMessage: {
+    color: 'red',
+    fontWeight: 'bold',
+  },
+};
