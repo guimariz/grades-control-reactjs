@@ -1,7 +1,7 @@
 import React from 'react';
 import Action from './Action';
 
-export default function GradesControl({ grades, onDelete, onPersist }) {
+export default function GradesControl({ grades, onDelete, onAddEdit }) {
   const tableGrades = [];
 
   let currentStudent = grades[0].student;
@@ -40,6 +40,8 @@ export default function GradesControl({ grades, onDelete, onPersist }) {
     if (type === 'delete') {
       onDelete(grade);
     }
+
+    onAddEdit(grade);
   };
 
   return (
