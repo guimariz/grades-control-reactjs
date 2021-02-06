@@ -18,8 +18,19 @@ export default function App() {
     getGrades();
   }, []);
 
-  const handleDelete = () => {
-    console.log('handleDelete');
+  const handleDelete = async (gradeToDlete) => {
+    const isDeleted = await api.deleteGrade(gradeToDlete);
+    if (isDeleted) {
+      const deletedGradeIndex = allGrades.findIndex(
+        (grade) => grade.id === gradeToDlete.id
+      );
+
+      const newGrades = Object.assign([], allGrades);
+      newGrades[deletedGradeIndex].isDeleted = true;
+      newGrades[deletedGradeIndex].value = 0;
+
+      setAllGrades(newGrades);
+    }
   };
   const handlePersist = () => {
     console.log('handlePersist');
