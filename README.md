@@ -1,4 +1,4 @@
-#Controle de Notas - Grades Control
+# Controle de Notas - Grades Control
 
 Para o backend foi utilizado o seguinte projeto: https://github.com/guimariz/simulate-grades-nodejs-express
 
