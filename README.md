@@ -1,3 +1,7 @@
+#Controle de Notas - Grades Control
+
+Para o backend foi utilizado o seguinte projeto: https://github.com/guimariz/simulate-grades-nodejs-express
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
