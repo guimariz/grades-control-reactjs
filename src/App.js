@@ -33,9 +33,14 @@ export default function App() {
       setAllGrades(newGrades);
     }
   };
-  const handleAddEdit = (grade) => {
+  const handlePersist = (grade) => {
     setSelectedGrade(grade);
     setIsModalOpen(true);
+  };
+
+  const handlePersistData = () => {};
+  const handleClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -46,11 +51,17 @@ export default function App() {
         <GradesControl
           grades={allGrades}
           onDelete={handleDelete}
-          onAddEdit={handleAddEdit}
+          onPersist={handlePersist}
         />
       )}
 
-      {isModalOpen && <ModalGrade />}
+      {isModalOpen && (
+        <ModalGrade
+          onSave={handlePersistData}
+          onClose={handleClose}
+          selectedGrade={selectedGrade}
+        />
+      )}
     </div>
   );
 }
