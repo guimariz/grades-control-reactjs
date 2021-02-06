@@ -5,14 +5,15 @@ import * as api from '../api/apiService';
 Modal.setAppElement('#root');
 
 export default function ModalGrade({ onSave, onClose, selectedGrade }) {
+  const { id, student, subject, type } = selectedGrade;
   const [gradeValue, setGradeValue] = useState(selectedGrade.value);
   const [gradeValidation, setGradeValidation] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    const validation = api.getValidationFromGradeType(selectedGrade.type);
+    const validation = api.getValidationFromGradeType(type);
     setGradeValidation(validation);
-  }, [selectedGrade.type]);
+  }, [type]);
 
   useEffect(() => {
     const { minValue, maxValue } = gradeValidation;
@@ -35,15 +36,47 @@ export default function ModalGrade({ onSave, onClose, selectedGrade }) {
   });
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
-      console.log(event.key);
+    console.log(event);
+    if (event.key === '[') {
       onClose(null);
     }
   };
 
+  const handleFormSubmit = (event) => {};
+
   return (
     <div>
-      <Modal isOpen={true} />
+      <Modal isOpen={true}>
+        <form OnSubmit={handleFormSubmit}></form>
+
+        <div className="input-field">
+          <input id="inputName" type="text" value={student} readOnly />
+          <label className="active" htmlFor="inputName">
+            Nome do aluno:
+          </label>
+        </div>
+        <div className="input-field">
+          <input id="inputSubject" type="text" value={subject} readOnly />
+          <label className="active" htmlFor="inputName">
+            Disciplina:
+          </label>
+        </div>
+        <div className="input-field">
+          <input id="inputType" type="text" value={type} readOnly />
+          <label className="active" htmlFor="inputName">
+            Tipo de avaliação:
+          </label>
+        </div>
+
+        <div className="input-field">
+          <input
+            id="inputGrade"
+            type="number"
+            min={gradeValidation.minValue}
+            max={gradeValidation.maxValue}
+          />
+        </div>
+      </Modal>
     </div>
   );
 }
