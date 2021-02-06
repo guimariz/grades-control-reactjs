@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as api from './api/apiService';
+import Spinner from './components/Spinner';
 
 export default function App() {
   const [allGrades, setAllGrades] = useState([]);
@@ -19,7 +20,7 @@ export default function App() {
     <div>
       <h1 className="center">Controle de Notas</h1>
       {allGrades.length > 0 && <p>Notas disponíveis</p>}
-      {allGrades.length == 0 && <p>Carregando notas...</p>}
+      {allGrades.length == 0 && <Spinner />}
     </div>
   );
 }
